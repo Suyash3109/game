@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "129840529012",
+    "project_id": "minesweepergame-64de1",
+    "storage_bucket": "minesweepergame-64de1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129840529012:android:dcefcc312b1b7b24ba9b21",
+        "android_client_info": {
+          "package_name": "com.example.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129840529012-4ah37vs1qveiniv0e5ff1p5v9bb8astq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwkcF2iqKhfE_H20hJwFwZcJIUHBzETvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129840529012-4ah37vs1qveiniv0e5ff1p5v9bb8astq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

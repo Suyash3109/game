@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     66,
     22,
     11,
+    37,
   ];
 
   bool bombsRevealed = false;
@@ -40,6 +41,15 @@ class _HomePageState extends State<HomePage> {
       squareStats.add([0, false]);
     }
     scanBombs();
+  }
+
+  void restartGame() {
+    setState(() {
+      bombsRevealed = false;
+      for (int i = 0; i < numberofSquares; i++) {
+        squareStats[i][1] = false;
+      }
+    });
   }
 
   void scanBombs() {
@@ -104,7 +114,142 @@ class _HomePageState extends State<HomePage> {
           }
           squareStats[index - 1][1] = true;
         }
+        //reveal top left box unless we are currently on the left wall
+
+        if (index % numberInEachRow != 0) {
+          if (squareStats[index - 1][0] == 0 &&
+              squareStats[index - 1][1] == false) {
+            revealBoxnumbers(index - 1);
+          }
+          squareStats[index - 1][1] = true;
+        }
+        //reveal top box unless we are currently on the left wall
+
+        if (index % numberInEachRow != 0) {
+          if (squareStats[index - 1][0] == 0 &&
+              squareStats[index - 1][1] == false) {
+            revealBoxnumbers(index - 1);
+          }
+          squareStats[index - 1][1] = true;
+        }
+        //reveal top right box unless we are currently on the left wall
+
+        if (index % numberInEachRow != 0) {
+          if (squareStats[index - 1][0] == 0 &&
+              squareStats[index - 1][1] == false) {
+            revealBoxnumbers(index - 1);
+          }
+          squareStats[index - 1][1] = true;
+        }
+
+        //reveal right box unless we are currently on the left wall
+
+        if (index % numberInEachRow != 0) {
+          if (squareStats[index - 1][0] == 0 &&
+              squareStats[index - 1][1] == false) {
+            revealBoxnumbers(index - 1);
+          }
+          squareStats[index - 1][1] = true;
+        }
+        //reveal bottom right box unless we are currently on the left wall
+
+        if (index % numberInEachRow != 0) {
+          if (squareStats[index - 1][0] == 0 &&
+              squareStats[index - 1][1] == false) {
+            revealBoxnumbers(index - 1);
+          }
+          squareStats[index - 1][1] = true;
+        }
+
+        //reveal bottom
+        // box unless we are currently on the left wall
+
+        if (index % numberInEachRow != 0) {
+          if (squareStats[index - 1][0] == 0 &&
+              squareStats[index - 1][1] == false) {
+            revealBoxnumbers(index - 1);
+          }
+          squareStats[index - 1][1] = true;
+        }
+
+        //reveal bottom left box unless we are currently on the left wall
+
+        if (index % numberInEachRow != 0) {
+          if (squareStats[index - 1][0] == 0 &&
+              squareStats[index - 1][1] == false) {
+            revealBoxnumbers(index - 1);
+          }
+          squareStats[index - 1][1] = true;
+        }
       });
+    }
+  }
+
+  void playerLost() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.grey[700],
+            title: Center(
+              child: Text(
+                "YOU LOST :(",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            actions: [
+              MaterialButton(
+                color: Colors.grey[100],
+                onPressed: () {
+                  restartGame();
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.refresh_rounded),
+              )
+            ],
+          );
+        });
+  }
+
+  void playerWon() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.grey[700],
+            title: Center(
+              child: Text(
+                "YOU WON :)",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            actions: [
+              MaterialButton(
+                color: Colors.grey[100],
+                onPressed: () {
+                  restartGame();
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.refresh_rounded),
+              )
+            ],
+          );
+        });
+  }
+
+  void checkWinner() {
+//check how many boxes the user has to reveal
+
+    int unrevealedBoxes = 0;
+    for (int i = 0; i < numberofSquares; i++) {
+      if (squareStats[i][1] == false) {
+        unrevealedBoxes++;
+      }
+    }
+
+// if the no. is same as the number of bombs, the player has won
+    if (unrevealedBoxes == bombLocation.length) {
+      playerWon();
     }
   }
 
@@ -123,15 +268,19 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "6",
+                  bombLocation.length.toString(),
                   style: TextStyle(fontSize: 40),
                 ),
                 Text("B O M B"),
               ],
             ),
-            Card(
-              child: Icon(Icons.refresh_rounded, color: Colors.white, size: 40),
-              color: Colors.grey[700],
+            GestureDetector(
+              onTap: restartGame,
+              child: Card(
+                child:
+                    Icon(Icons.refresh_rounded, color: Colors.white, size: 40),
+                color: Colors.grey[700],
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -162,6 +311,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         bombsRevealed = true;
                       });
+                      playerLost();
                     },
                   );
                 } else {
@@ -171,6 +321,7 @@ class _HomePageState extends State<HomePage> {
                     function: () {
                       // reveal current box
                       revealBoxnumbers(index);
+                      checkWinner();
                     },
                   );
                 }
@@ -179,7 +330,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.only(bottom: 40.0),
           child: Text(
-            "C R E A T E D B Y S U Y A S H",
+            "C R E A T E D   B Y   S U Y A S H",
             // style: FontWeight.bold,
           ),
         ),
